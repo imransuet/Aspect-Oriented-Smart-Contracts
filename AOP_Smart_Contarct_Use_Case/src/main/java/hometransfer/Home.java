@@ -7,7 +7,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@DataType()  //This isa Class level annotation, indicating this class represents one of the complex types that can be returned or passed to the transaction functions.
+@DataType()  //This is a Class level annotation, indicating this class represents one of the complex types that can be returned or passed to the transaction functions.
 public final class Home {
     @Property() // Field and parameter level annotation defining a property of the class (identified by DataType) Can also be used on the parameters of transaction functions
     private final String id;

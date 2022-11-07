@@ -1,5 +1,4 @@
 package hometransfer;
-
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contract;
@@ -42,6 +41,7 @@ public final class HomeTransfer implements ContractInterface {
      */
     @Transaction()
     public void initLedger(final Context ctx) {
+
 
         ChaincodeStub stub= ctx.getStub(); // ChaincodeStub will help us to connect to ledger
 
