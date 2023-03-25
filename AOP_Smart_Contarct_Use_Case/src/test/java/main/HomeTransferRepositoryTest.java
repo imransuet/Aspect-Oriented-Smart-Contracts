@@ -1,10 +1,9 @@
 package main;
 
 import hometransfer.Home;
-import hometransfer.HomeTransfer;
+import hometransfer.HomeTransferBL;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeStub;
-import org.hyperledger.fabric.shim.ChaincodeException;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +20,7 @@ public class HomeTransferRepositoryTest {
 
         @Test
         public void whenAgreementExists() {
-            HomeTransfer homeTransfer= new HomeTransfer();
+            HomeTransferBL homeTransfer= new HomeTransferBL();
             Context ctx = mock(Context.class);
             ChaincodeStub stub = mock(ChaincodeStub.class);
             when(ctx.getStub()).thenReturn(stub);
