@@ -39,7 +39,7 @@ public final class HomeTransfer implements ContractInterface{
 
 
     @Transaction()
-    public Home queryHomeById(final Context ctx, final String id) {
+    public Home queryHome(final Context ctx, final String id) {
         classDecorate();
         decoratedChaincode = manager.composeChaincodeBasedOnMetadata(ctx);
         return decoratedChaincode .queryHome(ctx, id);
