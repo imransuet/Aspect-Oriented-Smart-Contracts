@@ -10,39 +10,58 @@ import org.hyperledger.fabric.contract.annotation.Transaction;
         name = "HomeTransfer",
         info = @Info(
                 title = "HomeTransfer contract",
-                description = "A Sample Home transfer example with logging",
+                description = "A Demonstration of Chaincode about Home Ownership Transfer with Logging Features",
                 version = "0.0.1-SNAPSHOT"))
 
 
 @Default
 public final class HomeTransfer implements ContractInterface{
-    private final HomeTransferInterface homeTransfer;
-
-    public HomeTransfer() {
-        homeTransfer = new LoggingHomeTransferDecorator(new HomeTransferBL());
-    }
+    HomeTransferBL chaincode;
+    DecoratorManager manager;
+    HomeTransferInterface decoratedChaincode;
 
 
     @Transaction()
     public void initLedger(final Context ctx) {
-        homeTransfer.initLedger(ctx);
+        classDecorate();
+        decoratedChaincode = manager.composeChaincodeBasedOnMetadata(ctx);
+        System.out.println("i am in initLedger ");
+        decoratedChaincode .initLedger(ctx);
     }
 
 
     @Transaction()
     public Home addNewHome(final Context ctx, final String id, final String name, final String area, final String ownername, final String value) {
-        return homeTransfer.addNewHome(ctx, id, name, area, ownername, value);
+        classDecorate();
+        decoratedChaincode = manager.composeChaincodeBasedOnMetadata(ctx);
+        return decoratedChaincode .addNewHome(ctx, id, name, area, ownername, value);
     }
 
 
     @Transaction()
     public Home queryHomeById(final Context ctx, final String id) {
-        return homeTransfer.queryHomeById(ctx, id);
+        classDecorate();
+        decoratedChaincode = manager.composeChaincodeBasedOnMetadata(ctx);
+        return decoratedChaincode .queryHome(ctx, id);
     }
 
 
     @Transaction()
     public Home changeHomeOwnership(final Context ctx, final String id, final String newHomeOwner) {
-        return homeTransfer.changeHomeOwnership(ctx, id, newHomeOwner);
+        classDecorate();
+        decoratedChaincode = manager.composeChaincodeBasedOnMetadata(ctx);
+        return decoratedChaincode .changeHomeOwnership(ctx, id, newHomeOwner);
+    }
+
+    public void classDecorate()
+    {
+        System.out.println("i entered classDecorate ");
+        chaincode = new HomeTransferBL();
+        manager = new DecoratorManager(chaincode);
+
+        //add decorators to manager repo
+        manager.addDecorator(new LoggingDecorator());
+        System.out.println("i left classDecorate");
     }
 }
+

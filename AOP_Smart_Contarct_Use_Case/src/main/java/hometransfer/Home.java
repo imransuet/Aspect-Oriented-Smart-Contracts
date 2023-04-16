@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.owlike.genson.annotation.JsonProperty;
 import org.hyperledger.fabric.contract.annotation.DataType;
 import org.hyperledger.fabric.contract.annotation.Property;
+
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
