@@ -2,39 +2,30 @@ package hometransfer;
 
 import org.hyperledger.fabric.contract.Context;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class DecoratorManager {
+public class DecoratorManager<T> {
+    private T target;
+    private List<GenericDecorator<T>> decorators;
 
-    private HomeTransferInterface chaincode;
-    private  List<AbstractDecorator> decorators;
-
-
-    public DecoratorManager(HomeTransferInterface chaincode) {
-        this.chaincode = chaincode;
+    public DecoratorManager(T target) {
+        this.target = target;
         this.decorators = new ArrayList<>();
     }
 
-    public void addDecorator(AbstractDecorator decorator) {
+    public void addDecorator(GenericDecorator<T> decorator) {
         decorators.add(decorator);
     }
 
-    public HomeTransferInterface composeChaincodeBasedOnMetadata(Context ctx) {
+    public T composeChaincodeBasedOnMetadata(Context ctx) {
+        T decoratedTarget = target;
 
-        System.out.println("i entered composeChaincodeBasedOnMetadata ");
-        HomeTransferInterface decoratedChaincode = chaincode;
-        for (AbstractDecorator decorator : decorators) {
+        for (GenericDecorator<T> decorator : decorators) {
             if (decorator.shouldApplyForTransaction(ctx)) {
-                decoratedChaincode = decorator.decorate(decoratedChaincode);
+                decoratedTarget = decorator.decorate(decoratedTarget);
             }
         }
-        System.out.println("i left composeChaincodeBasedOnMetadata");
-        System.out.println(decoratedChaincode);
-        return decoratedChaincode;
+        return decoratedTarget;
     }
-
-
-
 }

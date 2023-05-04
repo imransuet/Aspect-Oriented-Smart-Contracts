@@ -1,6 +1,6 @@
-package hometransfer;
+package hometransfer.interfaces;
 
-import org.hyperledger.fabric.shim.ChaincodeStub;
+import hometransfer.models.Home;
 
 
 import org.hyperledger.fabric.contract.Context;

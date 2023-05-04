@@ -1,4 +1,4 @@
-package hometransfer;
+package hometransfer.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.owlike.genson.annotation.JsonProperty;

@@ -1,21 +1,14 @@
-package hometransfer;
+package hometransfer.implementations;
 
 import com.owlike.genson.Genson;
+import hometransfer.interfaces.HomeTransferInterface;
+import hometransfer.models.Home;
 import org.hyperledger.fabric.contract.Context;
-import org.hyperledger.fabric.contract.annotation.Contract;
-import org.hyperledger.fabric.contract.annotation.Default;
-import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
 
-@Contract(
-        name = "HomeTransfer",
-        info = @Info(
-                title = "HomeTransfer contract",
-                description = "A Sample Home transfer example with logging",
-                version = "0.0.1-SNAPSHOT"))
-@Default
+
 public final class HomeTransferBL implements HomeTransferInterface {
 
     private final Genson genson = new Genson(); //used for serializing or deserializing the message in JSON and vice versa.
