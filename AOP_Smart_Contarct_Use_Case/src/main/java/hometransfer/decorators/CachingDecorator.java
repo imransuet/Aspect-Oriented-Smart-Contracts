@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CachingDecorator<T> extends GenericDecorator<T> {
-    private final Map<String, Object> cache;
+    private static  Map<String, Object> cache;
     private Object cachedResult;
     private boolean skipInvocation;
 
@@ -27,7 +27,8 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
     @Override
     public void beforeInvocation(Method method, Object[] args) {
         String cacheKey = generateCacheKey(method, args);
-        System.out.println("Inside of beforeInvocation method");
+        System.out.println("Cache content: " + cache);
+        System.out.println("Inside of beforeInvocation method of Caching decorator");
         if (cache.containsKey(cacheKey)) {
             skipInvocation = true;
             cachedResult = cache.get(cacheKey);
@@ -36,11 +37,13 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
         }
     }
 
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         beforeInvocation(method, args);
+        System.out.println("Printing skip invocation variable "+skipInvocation);
         if (skipInvocation) {
-            System.out.println("providing result from cache");
+            System.out.println("Providing result from cache");
             return cachedResult;
         }
         Object result = super.invoke(proxy, method, args);
@@ -51,10 +54,13 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
     @Override
     public void afterInvocation(Method method, Object[] args, Object result) {
         if (!skipInvocation) {
+            System.out.println("Inside of afterInvocation method of Caching decorator");
             String cacheKey = generateCacheKey(method, args);
             cache.put(cacheKey, result);
+            System.out.println("Cache content after update: " + cache);
         }
     }
+
 
     @Override
     public boolean shouldApplyForTransaction(Context ctx) {
@@ -70,6 +76,8 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
     }
 
     private String generateCacheKey(Method method, Object[] args) {
-        return method.getName() + Arrays.deepHashCode(args);
+        String cacheKey = method.getName() + Arrays.deepToString(args);
+        System.out.println("Cache key: " + cacheKey);
+        return cacheKey;
     }
 }
