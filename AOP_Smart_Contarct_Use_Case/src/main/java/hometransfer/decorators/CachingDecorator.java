@@ -69,6 +69,7 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
         byte[] loggingBytes = stub.getTransient().get("caching");
         if (loggingBytes != null) {
             String loggingValue = new String(loggingBytes, StandardCharsets.UTF_8);
+            System.out.println("Transient value of caching Decorator: " + loggingValue);
             return loggingValue.equalsIgnoreCase("true");
         }
         System.out.println("i left shouldApplyForTransaction with false from caching decorator");
@@ -76,8 +77,11 @@ public class CachingDecorator<T> extends GenericDecorator<T> {
     }
 
     private String generateCacheKey(Method method, Object[] args) {
-        String cacheKey = method.getName() + Arrays.deepToString(args);
+        String methodName = method.getName();
+        String argsWithoutContext = Arrays.deepToString(Arrays.copyOfRange(args, 1, args.length));
+        String cacheKey = methodName + argsWithoutContext;
         System.out.println("Cache key: " + cacheKey);
         return cacheKey;
     }
+
 }

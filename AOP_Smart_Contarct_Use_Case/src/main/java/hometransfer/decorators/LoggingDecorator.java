@@ -18,13 +18,7 @@ public class LoggingDecorator<T> extends GenericDecorator<T> {
     public LoggingDecorator() {
 
     }
-/*
-    public T decorate(T target) {
-        return (T) new LoggingDecorator(target);
-    }
-    public LoggingDecorator() {
-    }
-*/
+
     @Override
     public void beforeInvocation(Method method, Object[] args) {
         LOGGER.log(Level.INFO, "Entering method: {0}", method.getName());
@@ -43,7 +37,7 @@ public class LoggingDecorator<T> extends GenericDecorator<T> {
         byte[] loggingBytes = stub.getTransient().get("logging");
         if (loggingBytes != null) {
             String loggingValue = new String(loggingBytes, StandardCharsets.UTF_8);
-            System.out.println("i left shouldApplyForTransaction with true ");
+            System.out.println("i left shouldApplyForTransaction with "+loggingValue+" from Logging decorator");
             return loggingValue.equalsIgnoreCase("true");
         }
         System.out.println("i left shouldApplyForTransaction with false of Logging ");
