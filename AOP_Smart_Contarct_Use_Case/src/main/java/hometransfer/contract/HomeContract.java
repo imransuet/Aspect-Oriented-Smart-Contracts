@@ -17,15 +17,16 @@ public final class HomeContract implements HomeInterface {
 
     public void initLedger(final Context ctx) {
         ChaincodeStub stub= ctx.getStub();
-        Home home = new Home("1", "1","lakeView","Dhaka", "100 sqm"); // Changed to include area
+        Home home = new Home("1", "1", "lakeView", "Dhaka", "1000 sqm", "Type1", 500000.0, 1990);
         System.out.println("Initialization successful");
 
         String homeState = genson.serialize(home);
         stub.putStringState("1", homeState);
     }
 
-    public Home addNewHome(final Context ctx, final String homeId, final String homeOwner, // Changed homeOwner to String
-                           final String homeName, final String homeAddress, final String area) {
+    public Home addNewHome(final Context ctx, final String homeId, final String homeOwner,
+                           final String homeName, final String homeAddress, final String area,
+                           final String propertyType, final double homeValue, final int buildYear) {
         ChaincodeStub stub= ctx.getStub();
         String homeState = stub.getStringState(homeId);
         if (!homeState.isEmpty()) {
@@ -33,7 +34,7 @@ public final class HomeContract implements HomeInterface {
             System.out.println(errorMessage);
             throw new ChaincodeException(errorMessage, HomeTransferErrors.HOME_ALREADY_EXISTS.toString());
         }
-        Home home = new Home(homeId, homeOwner, homeName, homeAddress, area); // Added area parameter
+        Home home = new Home(homeId, homeOwner, homeName, homeAddress, area, propertyType, homeValue, buildYear);
         homeState = genson.serialize(home);
         stub.putStringState(homeId, homeState);
         return home;
@@ -51,7 +52,7 @@ public final class HomeContract implements HomeInterface {
         return home;
     }
 
-    public Home changeHomeOwnership(final Context ctx, final String homeId, final String newHomeOwner) { // Changed newHomeOwner to String
+    public Home changeHomeOwnership(final Context ctx, final String homeId, final String newHomeOwner) {
         ChaincodeStub stub= ctx.getStub();
         String homeState = stub.getStringState(homeId);
         if (homeState.isEmpty()) {
@@ -60,7 +61,8 @@ public final class HomeContract implements HomeInterface {
             throw new ChaincodeException(errorMessage, HomeTransferErrors.HOME_NOT_FOUND.toString());
         }
         Home home = genson.deserialize(homeState, Home.class);
-        Home newHome = new Home(home.getHomeId(), newHomeOwner, home.getHomeName(), home.getHomeAddress(), home.getArea()); // Replaced home.getHomeName() with home.getHomeAddress() and added home.getArea()
+        Home newHome = new Home(home.getHomeId(), newHomeOwner, home.getHomeName(), home.getHomeAddress(), home.getArea(),
+                home.getPropertyType(), home.getHomeValue(), home.getBuildYear());
         String newHomeState = genson.serialize(newHome);
         stub.putStringState(homeId, newHomeState);
         return newHome;

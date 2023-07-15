@@ -15,9 +15,6 @@ import org.hyperledger.fabric.contract.annotation.Transaction;
                 title = "HomeTransfer contract",
                 description = "A Demonstration of Chaincode about Home Ownership Transfer with Logging Features",
                 version = "0.0.1-SNAPSHOT"))
-
-
-
 public final class HomeAPI implements ContractInterface{
     DecoratorManager decoratorManager = DecoratorManager.getInstance();
     HomeInterface decoratedChaincode;
@@ -25,37 +22,31 @@ public final class HomeAPI implements ContractInterface{
 
     @Transaction()
     public void initLedger(final Context ctx) {
-
         System.out.println("HomeAPI: i am in initLedger");
         decoratedChaincode= decoratorManager.getHomeContract(ctx);
-        decoratedChaincode .initLedger(ctx);
+        decoratedChaincode.initLedger(ctx);
     }
 
 
     @Transaction()
-    public Home addNewHome(final Context ctx, final String homeId, final String homeOwnerId, final String homeName, final String homeAddress, final String area) {
+    public Home addNewHome(final Context ctx, final String homeId, final String homeOwnerId, final String homeName,
+                           final String homeAddress, final String area, final String propertyType, final double homeValue,
+                           final int buildYear) {
         decoratedChaincode= decoratorManager.getHomeContract(ctx);
-
-        return decoratedChaincode .addNewHome(ctx, homeId, homeOwnerId, homeName, homeAddress, area);
+        return decoratedChaincode.addNewHome(ctx, homeId, homeOwnerId, homeName, homeAddress, area, propertyType, homeValue, buildYear);
     }
 
 
     @Transaction()
-    public Home queryHome(final Context ctx, final String  homeId) {
-
+    public Home queryHome(final Context ctx, final String homeId) {
         decoratedChaincode= decoratorManager.getHomeContract(ctx);
-        return decoratedChaincode .queryHome(ctx, homeId);
+        return decoratedChaincode.queryHome(ctx, homeId);
     }
 
 
     @Transaction()
-    public Home changeHomeOwnership(final Context ctx, final String  homeId, final String newHomeOwnerId) {
-
+    public Home changeHomeOwnership(final Context ctx, final String homeId, final String newHomeOwnerId) {
         decoratedChaincode= decoratorManager.getHomeContract(ctx);
-        return decoratedChaincode .changeHomeOwnership(ctx, homeId, newHomeOwnerId);
+        return decoratedChaincode.changeHomeOwnership(ctx, homeId, newHomeOwnerId);
     }
-
-
-
-
 }

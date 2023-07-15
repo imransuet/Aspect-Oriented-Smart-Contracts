@@ -8,10 +8,10 @@ public abstract  class AbstractHome implements HomeInterface {
 
     protected HomeInterface chaincodeInterface;
 
-
     public AbstractHome(HomeInterface chaincodeInterface) {
         this.chaincodeInterface = chaincodeInterface;
     }
+
     public AbstractHome() {
     }
 
@@ -22,16 +22,14 @@ public abstract  class AbstractHome implements HomeInterface {
 
     @Override
     public void initLedger(final Context ctx) {
-
         chaincodeInterface.initLedger(ctx);
     }
 
     @Override
     public Home addNewHome(final Context ctx, final String homeId, final String homeOwner,
-                           final String homeName, final String homeAddress, final String area) {
-
-        return  chaincodeInterface.addNewHome(ctx,homeId, homeOwner, homeName, homeAddress, area);
-
+                           final String homeName, final String homeAddress, final String area,
+                           final String propertyType, final double homeValue, final int buildYear) {
+        return chaincodeInterface.addNewHome(ctx,homeId, homeOwner, homeName, homeAddress, area, propertyType, homeValue, buildYear);
     }
 
     @Override
@@ -43,6 +41,4 @@ public abstract  class AbstractHome implements HomeInterface {
     public Home changeHomeOwnership(final Context ctx , final String id, final String newHomeOwner) {
         return chaincodeInterface.changeHomeOwnership(ctx, id, newHomeOwner);
     }
-
-
 }

@@ -8,7 +8,6 @@ public abstract class AbstractPerson implements PersonInterface {
 
     protected PersonInterface chaincodeInterface;
 
-
     public AbstractPerson(PersonInterface chaincodeInterface) {
         this.chaincodeInterface = chaincodeInterface;
     }
@@ -24,13 +23,12 @@ public abstract class AbstractPerson implements PersonInterface {
         chaincodeInterface.initLedger(ctx);
     }
 
-    public Person addNewPerson(final Context ctx, final String personId, final String personName, final String address) {
-        return  chaincodeInterface.addNewPerson(ctx, personId,  personName,  address);
+    public Person addNewPerson(final Context ctx, final String personId, final String personName, final String address,
+                               final String dateOfBirth, final String emailAddress, final String phoneNumber, final String nationality) {
+        return  chaincodeInterface.addNewPerson(ctx, personId,  personName,  address, dateOfBirth, emailAddress, phoneNumber, nationality);
     }
 
     public Person queryPerson(final Context ctx, final String personId) {
         return chaincodeInterface.queryPerson(ctx, personId);
     }
-
-
 }

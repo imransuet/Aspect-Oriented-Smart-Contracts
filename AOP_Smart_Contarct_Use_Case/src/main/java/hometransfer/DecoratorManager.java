@@ -16,31 +16,25 @@ import java.util.List;
 import java.util.Map;
 
 public class DecoratorManager {
-    HomeContract homeContract;
-    PersonContract personContract;
-    AccountContract accountContract;
+    HomeContract homeContract =new HomeContract();
+    PersonContract personContract  =new PersonContract();
+    AccountContract accountContract= new AccountContract();
     private static DecoratorManager instance = null;
     private final LayerObject loggingLayer;
 
     private List<LayerObject> layers;
-    HomeInterface decoratedHomeContract ;
-    PersonInterface decoratedPersonContract ;
-    AccountInterface decoratedAccountContract;
+    HomeInterface decoratedHomeContract = homeContract;
+    PersonInterface decoratedPersonContract = personContract ;
+    AccountInterface decoratedAccountContract =accountContract;
 
 
     public DecoratorManager() {
-         homeContract =new HomeContract();
-         personContract =new PersonContract();
-        accountContract =new AccountContract();
-
         this.layers = new ArrayList<>();
         loggingLayer = new LayerObject();
         loggingLayer.setHomeDecorator(new LoggingHome());
         loggingLayer.setAccountDecorator(new LoggingAccount());
         loggingLayer.setPersonDecorator(new LoggingPerson());
         layers.add(loggingLayer);
-
-
     }
     public static synchronized DecoratorManager getInstance() {
         if (instance == null) {

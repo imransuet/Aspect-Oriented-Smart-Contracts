@@ -17,36 +17,28 @@ import org.hyperledger.fabric.contract.annotation.Transaction;
                 description = "A Demonstration of Chaincode about Personal Data Management",
                 version = "0.0.1-SNAPSHOT"))
 
-
 @Default
 public final class PersonAPI implements ContractInterface{
     DecoratorManager decoratorManager = DecoratorManager.getInstance();
     PersonInterface decoratedChaincode;
 
-
     @Transaction()
     public void initLedger(final Context ctx) {
-
         decoratedChaincode= decoratorManager.getPersonContract(ctx);
-        decoratedChaincode .initLedger(ctx);
+        decoratedChaincode.initLedger(ctx);
     }
-
 
     @Transaction()
-    public Person addNewPerson(final Context ctx, final String personId, final String personName, final String address) {
-
+    public Person addNewPerson(final Context ctx, final String personId, final String personName,
+                               final String address, final String dateOfBirth, final String emailAddress,
+                               final String phoneNumber, final String nationality) {
         decoratedChaincode= decoratorManager.getPersonContract(ctx);
-        return decoratedChaincode .addNewPerson(ctx, personId, personName,address);
+        return decoratedChaincode.addNewPerson(ctx, personId, personName, address, dateOfBirth, emailAddress, phoneNumber, nationality);
     }
-
 
     @Transaction()
     public Person queryPerson(final Context ctx, final String personId) {
-
         decoratedChaincode= decoratorManager.getPersonContract(ctx);
-        return decoratedChaincode .queryPerson(ctx, personId);
+        return decoratedChaincode.queryPerson(ctx, personId);
     }
-
-
-
 }
