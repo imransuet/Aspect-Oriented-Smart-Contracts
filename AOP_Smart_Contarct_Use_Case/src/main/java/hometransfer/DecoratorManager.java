@@ -3,8 +3,11 @@ package hometransfer;
 import hometransfer.contract.AccountContract;
 import hometransfer.contract.HomeContract;
 import hometransfer.contract.PersonContract;
+import hometransfer.decorators.account.CachingAccount;
 import hometransfer.decorators.account.LoggingAccount;
+import hometransfer.decorators.home.CachingHome;
 import hometransfer.decorators.home.LoggingHome;
+import hometransfer.decorators.person.CachingPerson;
 import hometransfer.decorators.person.LoggingPerson;
 import hometransfer.interfaces.AccountInterface;
 import hometransfer.interfaces.HomeInterface;
@@ -21,6 +24,7 @@ public class DecoratorManager {
     AccountContract accountContract= new AccountContract();
     private static DecoratorManager instance = null;
     private final LayerObject loggingLayer;
+    private final LayerObject cachingLayer;
 
     private List<LayerObject> layers;
     HomeInterface decoratedHomeContract = homeContract;
@@ -35,6 +39,11 @@ public class DecoratorManager {
         loggingLayer.setAccountDecorator(new LoggingAccount());
         loggingLayer.setPersonDecorator(new LoggingPerson());
         layers.add(loggingLayer);
+        cachingLayer = new LayerObject();
+        cachingLayer.setAccountDecorator(new CachingAccount());
+        cachingLayer.setHomeDecorator(new CachingHome());
+        cachingLayer.setPersonDecorator(new CachingPerson());
+        layers.add(cachingLayer);
     }
     public static synchronized DecoratorManager getInstance() {
         if (instance == null) {
@@ -50,6 +59,9 @@ public class DecoratorManager {
             // Check for logging flag and set activation accordingly
             if (transientMap.containsKey("logging")) {
                 loggingLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("logging"))));
+            } else if (transientMap.containsKey("caching")) {
+                cachingLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("caching"))));
+
             }
             decorateContracts();
 
