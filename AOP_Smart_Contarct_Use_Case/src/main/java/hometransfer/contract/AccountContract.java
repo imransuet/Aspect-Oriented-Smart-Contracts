@@ -92,8 +92,8 @@ public class AccountContract implements AccountInterface {
         }
 
         // Create updated accounts after transferring the balance
-        Account updatedSenderAccount = new Account(senderAccount.getAccountId(), senderAccount.getPersonId(), senderAccount.getBalance() - transferAmount); // replaced getPerson() with getPersonId()
-        Account updatedReceiverAccount = new Account(receiverAccount.getAccountId(), receiverAccount.getPersonId(), receiverAccount.getBalance() + transferAmount); // replaced getPerson() with getPersonId()
+        Account updatedSenderAccount = new Account(senderAccount.getAccountId(), senderAccount.getPersonId(), senderAccount.getBalance() - transferAmount);
+        Account updatedReceiverAccount = new Account(receiverAccount.getAccountId(), receiverAccount.getPersonId(), receiverAccount.getBalance() + transferAmount);
 
         // Serialize updated accounts
         String updatedSenderAccountState = genson.serialize(updatedSenderAccount);

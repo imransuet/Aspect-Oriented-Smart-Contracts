@@ -20,6 +20,7 @@ public class CachingHome extends AbstractHome{
 
     @Override
     public HomeInterface decorate(HomeInterface chaincodeInterface) {
+        System.out.println("Inside caching decorate of Home\n");
         return new CachingHome(chaincodeInterface);
     }
 
@@ -40,7 +41,7 @@ public class CachingHome extends AbstractHome{
     @Override
     public Home queryHome(final Context ctx, final String homeId) {
         if (homeCache.containsKey(homeId)) {
-            System.out.println("Return value from cache\n");
+            System.out.println("Return value from Home Cache\n");
             return homeCache.get(homeId);
         }
         Home home = super.queryHome(ctx, homeId);

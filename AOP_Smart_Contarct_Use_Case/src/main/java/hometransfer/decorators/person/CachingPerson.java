@@ -11,8 +11,8 @@ public class CachingPerson extends AbstractPerson{
 
     private static final Map<String, Person> personCache = new HashMap<>();
 
-    public CachingPerson(PersonInterface homeTransfer) {
-        super(homeTransfer);
+    public CachingPerson(PersonInterface person) {
+        super(person);
     }
 
     public CachingPerson() {
@@ -20,6 +20,7 @@ public class CachingPerson extends AbstractPerson{
 
     @Override
     public PersonInterface decorate(PersonInterface chaincodeInterface) {
+        System.out.println("Inside caching decorate of Home\n");
         return new CachingPerson(chaincodeInterface);
     }
 
@@ -39,7 +40,7 @@ public class CachingPerson extends AbstractPerson{
     @Override
     public Person queryPerson(final Context ctx, final String personId) {
         if (personCache.containsKey(personId)) {
-            System.out.println("Return value from cache\n");
+            System.out.println("Return value from Person Cache\n");
             return personCache.get(personId);
         }
         Person person = super.queryPerson(ctx, personId);

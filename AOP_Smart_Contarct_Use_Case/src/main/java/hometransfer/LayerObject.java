@@ -6,17 +6,18 @@ import hometransfer.interfaces.PersonInterface;
 
 class LayerObject {
 
-    private boolean activation;
-    private HomeInterface homeDecorator;
-    private PersonInterface personDecorator;
-    private AccountInterface accountDecorator;
+    private boolean activation=true;
+    private HomeInterface homeDecorator=null;
+    private PersonInterface personDecorator=null;
+    private AccountInterface accountDecorator=null;
 
     public LayerObject() {
-        this.activation = true; // Default activation status is true
+
     }
 
     public void setActivation(boolean activation) {
         this.activation = activation;
+
     }
 
     public boolean getActivation() {

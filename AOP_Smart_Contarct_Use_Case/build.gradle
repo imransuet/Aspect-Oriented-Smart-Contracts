@@ -24,15 +24,14 @@ dependencies {
 
 
 
-    implementation 'org.aspectj:aspectjrt:1.9.6'
+
 
     implementation 'org.hyperledger.fabric-chaincode-java:fabric-chaincode-shim:2.4.1'
 
     implementation 'com.owlike:genson:1.5'  // this dependency is a Json databinding library for Java
 
-//
-    implementation 'org.slf4j:slf4j-api:2.0.7'
-    implementation 'ch.qos.logback:logback-classic:1.4.8'
+
+   
 
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
 

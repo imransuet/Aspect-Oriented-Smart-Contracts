@@ -4,11 +4,15 @@ import hometransfer.contract.AccountContract;
 import hometransfer.contract.HomeContract;
 import hometransfer.contract.PersonContract;
 import hometransfer.decorators.account.CachingAccount;
+import hometransfer.decorators.account.CouponAccount;
 import hometransfer.decorators.account.LoggingAccount;
+import hometransfer.decorators.account.PreConditionAccount;
 import hometransfer.decorators.home.CachingHome;
 import hometransfer.decorators.home.LoggingHome;
+import hometransfer.decorators.home.PreConditionHome;
 import hometransfer.decorators.person.CachingPerson;
 import hometransfer.decorators.person.LoggingPerson;
+import hometransfer.decorators.person.PreConditionPerson;
 import hometransfer.interfaces.AccountInterface;
 import hometransfer.interfaces.HomeInterface;
 import hometransfer.interfaces.PersonInterface;
@@ -25,6 +29,8 @@ public class DecoratorManager {
     private static DecoratorManager instance = null;
     private final LayerObject loggingLayer;
     private final LayerObject cachingLayer;
+    private final LayerObject preConditionLayer;
+    private final LayerObject couponLayer;
 
     private List<LayerObject> layers;
     HomeInterface decoratedHomeContract = homeContract;
@@ -33,7 +39,7 @@ public class DecoratorManager {
 
 
     public DecoratorManager() {
-        this.layers = new ArrayList<>();
+        layers = new ArrayList<>();
         loggingLayer = new LayerObject();
         loggingLayer.setHomeDecorator(new LoggingHome());
         loggingLayer.setAccountDecorator(new LoggingAccount());
@@ -44,6 +50,14 @@ public class DecoratorManager {
         cachingLayer.setHomeDecorator(new CachingHome());
         cachingLayer.setPersonDecorator(new CachingPerson());
         layers.add(cachingLayer);
+        preConditionLayer = new LayerObject();
+        preConditionLayer.setAccountDecorator(new PreConditionAccount());
+        preConditionLayer.setHomeDecorator(new PreConditionHome());
+        preConditionLayer.setPersonDecorator(new PreConditionPerson());
+        layers.add(preConditionLayer);
+        couponLayer =new LayerObject();
+        couponLayer.setAccountDecorator(new CouponAccount());
+        layers.add(couponLayer);
     }
     public static synchronized DecoratorManager getInstance() {
         if (instance == null) {
@@ -59,8 +73,20 @@ public class DecoratorManager {
             // Check for logging flag and set activation accordingly
             if (transientMap.containsKey("logging")) {
                 loggingLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("logging"))));
-            } else if (transientMap.containsKey("caching")) {
+                System.out.println("Layer Object Logging has been set as "+new String(transientMap.get("logging")));
+            }
+            if (transientMap.containsKey("caching")) {
                 cachingLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("caching"))));
+                System.out.println("Layer Object Caching has been set as "+new String(transientMap.get("caching")));
+            }
+             if (transientMap.containsKey("preCondition")) {
+                 System.out.println("Layer Object preCondition has been set as "+new String(transientMap.get("preCondition")));
+                preConditionLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("preCondition"))));
+
+            }
+             if (transientMap.containsKey("coupon")) {
+                 System.out.println("Layer Object Coupon has been set as "+new String(transientMap.get("coupon")));
+                couponLayer.setActivation(Boolean.parseBoolean(new String(transientMap.get("coupon"))));
 
             }
             decorateContracts();
@@ -68,18 +94,24 @@ public class DecoratorManager {
         }
     }
     public void decorateContracts() {
-       decoratedHomeContract=homeContract ;
-       decoratedPersonContract=personContract ;
-      decoratedAccountContract=accountContract;
+        decoratedHomeContract = homeContract;
+        decoratedPersonContract = personContract;
+        decoratedAccountContract = accountContract;
+
         for (LayerObject layer : layers) {
             if (layer.getActivation()) {
-                decoratedHomeContract = layer.getHomeDecorator().decorate(decoratedHomeContract);
-               decoratedPersonContract = layer.getPersonDecorator().decorate(decoratedPersonContract);
-               decoratedAccountContract = layer.getAccountDecorator().decorate(decoratedAccountContract);
+                if(layer.getHomeDecorator() != null)
+                    decoratedHomeContract = layer.getHomeDecorator().decorate(decoratedHomeContract);
 
+                if(layer.getPersonDecorator() != null)
+                    decoratedPersonContract = layer.getPersonDecorator().decorate(decoratedPersonContract);
+
+                if(layer.getAccountDecorator() != null)
+                    decoratedAccountContract = layer.getAccountDecorator().decorate(decoratedAccountContract);
             }
         }
     }
+
 
 
     public HomeInterface getHomeContract(final Context ctx)

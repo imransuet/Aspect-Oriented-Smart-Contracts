@@ -17,6 +17,7 @@ public class LoggingHome extends AbstractHome {
     }
 
     public HomeInterface decorate(HomeInterface chaincodeInterface) {
+        System.out.println("Inside Logging Home decorate method\n");
         return new LoggingHome(chaincodeInterface);
     }
 

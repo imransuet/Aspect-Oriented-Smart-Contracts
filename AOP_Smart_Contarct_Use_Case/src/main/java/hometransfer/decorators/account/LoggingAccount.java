@@ -9,12 +9,12 @@ import java.util.logging.Level;
 public class LoggingAccount extends AbstractAccount {
     private static final Logger logger = Logger.getLogger(LoggingAccount.class.getName());
 
-    public LoggingAccount(AccountInterface homeTransfer) {
-        super(homeTransfer);
+    public LoggingAccount(AccountInterface account) {
+        super(account);
     }
 
     public AccountInterface decorate(AccountInterface chaincodeInterface) {
-        logger.log(Level.INFO, "Inside decorate method");
+        System.out.println("Inside Logging Account decorate method\n");;
         return new LoggingAccount(chaincodeInterface);
     }
 

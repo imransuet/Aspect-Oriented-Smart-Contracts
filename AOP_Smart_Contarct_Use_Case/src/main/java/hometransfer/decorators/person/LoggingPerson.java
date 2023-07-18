@@ -9,14 +9,15 @@ import java.util.logging.Level;
 public class LoggingPerson extends AbstractPerson {
     private static final Logger logger = Logger.getLogger(LoggingPerson.class.getName());
 
-    public LoggingPerson(PersonInterface homeTransfer) {
-        super(homeTransfer);
+    public LoggingPerson(PersonInterface person) {
+        super(person);
     }
 
     public LoggingPerson() {
     }
 
     public PersonInterface decorate(PersonInterface chaincodeInterface) {
+        System.out.println("Inside Logging Person decorate method\n");
 
         PersonInterface result = new LoggingPerson(chaincodeInterface);
 

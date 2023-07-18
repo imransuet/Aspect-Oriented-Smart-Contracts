@@ -43,7 +43,7 @@ public class AccountAPI implements ContractInterface {
     }
 
     @Transaction()
-    String transferBalance(Context ctx, String senderAccountId, String receiverAccountId, double transferAmount){
+    public String transferBalance(Context ctx, String senderAccountId, String receiverAccountId, double transferAmount){
         decoratedChaincode= decoratorManager.getAccountContract(ctx);
         return decoratedChaincode.transferBalance(ctx, senderAccountId, receiverAccountId, transferAmount);
     }
