@@ -29,3 +29,21 @@ peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.exa
 peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C samplechannel -n HomeTransfer --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 -c '{"function":"PersonAPI:queryPerson", "Args":["1"]}' --transient '{"caching":"ZmFsc2U=","logging":"dHJ1ZQ==","decorate":"dHJ1ZQ=="}'
 ```
 
+##  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Chaincode Functions for HomeAPI
+
+#### 1. Invoke InitLedger Method
+
+```bash
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C samplechannel -n HomeTransfer --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 --isInit -c '{"function":"HomeAPI:initLedger", "Args":[]}' --transient '{"logging":"dHJ1ZQ==","caching":"dHJ1ZQ==","decorate":"dHJ1ZQ=="}'
+```
+#### 2. Invoke addNewHome
+
+```bash
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C samplechannel -n HomeTransfer --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 -c '{"function":"HomeAPI:addNewHome", "Args":["5", "1", "Lake View", "Sri Nagar", "5000", "Villa", "1000000", "1990"]}' --transient '{"logging":"dHJ1ZQ==","caching":"dHJ1ZQ==","decorate":"dHJ1ZQ=="}'
+```
+#### 3. Invoke Query Home 
+
+```bash
+peer chaincode invoke -o localhost:7050 --ordererTLSHostnameOverride orderer.example.com --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C samplechannel -n HomeTransfer --peerAddresses localhost:7051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG1 --peerAddresses localhost:9051 --tlsRootCertFiles $CORE_PEER_TLS_ROOTCERT_FILE_ORG2 -c '{"function":"HomeAPI:queryHome", "Args":["5"]}'
+```
+
