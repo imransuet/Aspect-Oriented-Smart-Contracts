@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CachingHome extends AbstractHome{
 
-    private static final Map<String, Home> homeCache = new HashMap<>();
+    private  Map<String, Home> homeCache = new HashMap<>();
 
     public CachingHome(HomeInterface homeTransfer) {
         super(homeTransfer);

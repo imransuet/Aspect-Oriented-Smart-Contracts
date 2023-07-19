@@ -7,7 +7,7 @@ import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 
-public final class HomeContract implements HomeInterface {
+public class HomeContract implements HomeInterface {
 
     private final Genson genson = new Genson();
     private enum HomeTransferErrors {

@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class CachingAccount extends AbstractAccount{
     private final Genson genson = new Genson();
-    private static final Map<String, Account> accountCache = new HashMap<>();
+    private  Map<String, Account> accountCache = new HashMap<>();
 
     public CachingAccount(AccountInterface account) {
         super(account);
@@ -34,6 +34,7 @@ public class CachingAccount extends AbstractAccount{
     @Override
     public Account addNewAccount(final Context ctx, final String accountId, final String personId, final double balance) {
         Account account = super.addNewAccount(ctx, accountId, personId, balance);
+        System.out.println("Cache has been updated\n");
         accountCache.put(accountId, account);
         return account;
     }
@@ -61,12 +62,14 @@ public class CachingAccount extends AbstractAccount{
             String updatedSenderAccountState = stub.getStringState(senderAccountId);
             Account updatedSenderAccount = genson.deserialize(updatedSenderAccountState, Account.class);
             accountCache.put(senderAccountId, updatedSenderAccount);
+            System.out.println("Cache has been updated for sender\n");
         }
         if (accountCache.containsKey(receiverAccountId)) {
             accountCache.remove(receiverAccountId);
             String updatedReceiverAccountState = stub.getStringState(receiverAccountId);
             Account updatedReceiverAccount = genson.deserialize(updatedReceiverAccountState, Account.class);
             accountCache.put(receiverAccountId, updatedReceiverAccount);
+            System.out.println("Cache has been updated for receiver\n");
         }
         return result;
     }

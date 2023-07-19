@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CachingPerson extends AbstractPerson{
 
-    private static final Map<String, Person> personCache = new HashMap<>();
+    private  Map<String, Person> personCache = new HashMap<>();
 
     public CachingPerson(PersonInterface person) {
         super(person);
